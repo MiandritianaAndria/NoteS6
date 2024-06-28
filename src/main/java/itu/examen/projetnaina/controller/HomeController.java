@@ -140,15 +140,6 @@ public class HomeController {
         return redirect;
     }
 
-    @PostMapping("/loginVerif")
-    public String loginVerif(HttpServletRequest request,@RequestParam("email") String email,
-                             @RequestParam("mdp") String mdp, Model model) {
-
-        String redirect = userService.verifUser(request , email,  mdp, model);
-        return redirect;
-
-    }
-
     @GetMapping("/livre")
     public String livre(HttpServletRequest request,@RequestParam("search") String search,Model model) {
 
