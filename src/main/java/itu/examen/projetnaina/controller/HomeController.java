@@ -92,11 +92,6 @@ public class HomeController {
         return "gretting";
     }
 
-    @GetMapping("/person")
-    public String showForm(User person) {
-        return "person";
-    }
-
     @PostMapping("/person")
     public String checkPersonInfo(@RequestParam("email") String email,
                                   @RequestParam("mdp") String mdp, Model model) {
@@ -154,54 +149,6 @@ public class HomeController {
 
     }
 
-    @GetMapping("/indexAdmin")
-    public String indexAdmin(HttpServletRequest request,Model model) {
-
-        String redirect = v_viewlivreService.affLivreView(request , model);
-        return redirect;
-    }
-
-    @GetMapping("/livreAdmin")
-    public String livreAdmin(@RequestParam(name = "message", required = false) String message,
-                             @RequestParam(name = "succes", required = false) String succes,@RequestParam(name="search", required=false, defaultValue="vide") String search,
-                             HttpServletRequest request,Model model) {
-
-        String redirect = livreService.livreAdmin(message, succes, search, request,model);
-        return redirect;
-    }
-
-    @GetMapping("/refMembre")
-    public String refMembre(HttpServletRequest request, @RequestParam("refMembre") String refMembre,RedirectAttributes redirectAttributes,Model model) {
-        
-        String redirect = membreService.refMembre(request, refMembre, redirectAttributes, model);
-        return redirect;
-    }
-
-    @GetMapping("/effacerSession")
-    public String effacerSession(HttpServletRequest request,RedirectAttributes redirectAttributes,Model model) {
-
-        String redirect = membreService.effacerSession(request, redirectAttributes, model);
-        return redirect;
-    }
-
-    @GetMapping("/inscription")
-    public String inscription(Model model) {
-        List<Adherant> adherants = adherantService.getAllAdherants();
-        model.addAttribute("adherants", adherants);
-        return "inscription";
-    }
-
-    @PostMapping("/ajouterMembre")
-    public String ajouterMembre(@RequestParam("nom") String nom,
-                                @RequestParam("adresse") String adresse,
-                                @RequestParam("telephone") String telephone,
-                                @RequestParam("dateN") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateN,
-                                @RequestParam("adherant") int adherant,Model model) {
-
-        String redirect = membreService.ajoutMembre( nom,  adresse,  telephone,  dateN,  adherant, model);
-        return redirect;
-    }
-
     @GetMapping("/livre")
     public String livre(HttpServletRequest request,@RequestParam("search") String search,Model model) {
 
@@ -216,81 +163,6 @@ public class HomeController {
 
         String redirect = livreService.detailLivre(id, model);
         return redirect;
-    }
-
-    @PostMapping("/reserverLivre")
-    public String addlivre(@RequestParam("id") Long id,
-                           @RequestParam(name = "emporter", required = false) String emporter,
-                           HttpServletRequest request, RedirectAttributes redirectAttributes,
-                           Model model) {
-
-        String redirect = livreService.empruntLivre(id, emporter, request, redirectAttributes, model);
-        return redirect;
-    }
-
-    @GetMapping("/listeEmprunt")
-    public String listeEmprun(@RequestParam(name = "refMembre", required = false) String refMembre,
-                              @RequestParam(name = "succes" , required = false) String succes,
-                              HttpServletRequest request,Model model) {
-
-        List<V_listeEmprunt> emprunts = v_listeEmpruntService.listeEmprunt(refMembre,succes,request,model);
-
-        return "listeEmprun";
-    }
-
-    @GetMapping("/empruntClient")
-    public String listeEmprunClient(HttpServletRequest request,Model model) {
-
-        v_listeEmpruntService.listeEmpruntClient(request,model);
-        membreService.recupMembre(request,model);
-        return "listeEmprunClient";
-    }
-
-
-    @PostMapping("/rendu")
-    public String rendu(@RequestParam(name = "idEmprunt") String idEmprunt,
-                        @RequestParam(name = "idLivre") String idLivre,
-                        @RequestParam(name = "idMembre") String idMembre,
-                        @RequestParam(name = "dateRetour", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateRetour,
-                        RedirectAttributes redirectAttributes,Model model) {
-
-        renduService.rendu(idEmprunt,idLivre,idMembre,dateRetour,redirectAttributes,model);
-
-        return "redirect:/listeEmprunt";
-    }
-
-    @GetMapping("/formulaireLivre")
-    public String formulaireLivre(Model model) {
-
-        livreService.getCathégorieAdhérant(model);
-
-        return "addLivre";
-    }
-
-    @PostMapping("/addlivre")
-    public String addlivre(@RequestParam(name = "titre") String titre,
-                           @RequestParam(name = "auteur") String auteur,
-                           @RequestParam(name = "collection") String collection,
-                           @RequestParam(name = "resume") String resume,
-                           @RequestParam(name = "categorie") int categorie,
-                           @RequestParam(name = "tome") String tome,
-                           @RequestParam(name = "motCles") String motCles,
-                           @RequestParam(name = "langue") String langue,
-                           @RequestParam(name = "code") String code,
-                           @RequestParam(name = "isbn") String isbn,
-                           @RequestParam(name = "edition") String edition,
-                           @RequestParam(name = "dateEdition") String dateEdition,
-                           @RequestParam(name = "nbpage") int nbpage,
-                           @RequestParam(name = "couverture") MultipartFile couverture,
-                           @RequestParam(name = "ageMin") int ageMin,
-                           @RequestParam(name = "typeLire") int typeLire,
-                           @RequestParam(name = "emporte") String emporte,
-                           @RequestParam(name = "typeEmporte") int typeEmporte,
-                           @RequestParam(name = "quantite") int quantite,
-                           RedirectAttributes redirectAttributes,Model model) {
-
-        livreService.addLivre( titre, auteur, collection, resume, categorie, tome, motCles, langue, code, isbn, edition, dateEdition, nbpage, couverture, ageMin, typeLire, emporte, typeEmporte, quantite, redirectAttributes, model);
-        return "redirect:/formulaireLivre";
     }
 
 }
