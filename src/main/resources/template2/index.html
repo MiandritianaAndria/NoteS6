@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Page Turner</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700|Lato:400');
+        * {outline-width: 0;	font-family: 'Roboto';}
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 10px 0;
+            box-sizing: border-box;
+            &.change {
+                background: #fff;
+                box-shadow: 0 0 7px rgba(0,0,0,0.1);
+                a {
+                    color: #000 !important;
+                    &:after {
+                        background: #000 !important;
+                    }
+                }
+                h1 {
+                    color: #000 !important;
+                }
+            }
+        }
+        #nav-wrapper {
+<!--            width: 1024px;-->
+            margin: 0 auto;
+            display: flex;
+        }
+        .nav-left {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            h1 {
+                margin: 0;
+                font-family: 'Lato';
+                color: #fff;
+                font-size: 24px;
+                font-weight: 400;
+            }
+        }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex: 2;
+            cursor: default;
+            overflow: hidden;
+            ul {
+                padding: 0;
+                margin: 0;
+                li {
+                    list-style: none;
+                    display: inline-block;
+                    a {
+                        color: #fff;
+                        text-decoration: none;
+                        display: block;
+                        padding: 10px 15px;
+                        position: relative;
+                        box-sizing: border-box;
+                        &:after {
+                            content: "";
+                            display: block;
+                            position: absolute;
+                            height: 2px;
+                            width: 100%;
+                            bottom: 0;
+                            background: #fff;
+                            left: 0;
+                            transform: scale(0,1);
+                            transition: 0.3s ease;
+                        }
+                        &:hover:after {
+                            transform: scale(1,1)
+                        }
+                    }
+                }
+            }
+            &.toggle {
+                height: 100%;
+            }
+        }
+        .mobile-nav {
+            display: flex;
+            padding: 15px;
+            box-sizing: border-box;
+            cursor: pointer;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 101;
+            background: #fff;
+            h1 {
+                margin: 0;
+                font-weight: 400;
+                flex: 1;
+                font-size: 52px;
+            }
+            span {
+                flex: 1;
+                display: flex;
+                justify-content: flex-end;
+                &:before {
+                    font-size: 53px;
+                }
+            }
+        }
+
+        .hero {
+            .background, .overlay, .hero-content {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+            }
+            .background {
+                background: url('https://images.pexels.com/photos/3747468/pexels-photo-3747468.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1') center;
+                background-size: cover;
+                z-index: 1;
+            }
+            .overlay {
+                background: linear-gradient(to bottom right, #aa6c26, 80%, #ffea90);
+                opacity: 0.4;
+                z-index: 2;
+            }
+            .hero-content {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                z-index: 3;
+                h1 {
+                    margin: 0;
+                    font-weight: 400;
+                    color: #fff;
+                    font-size: 62px;
+                    position: relative;
+                    font-family: 'Lato';
+                }
+                .line {
+                    height: 1px;
+                    width: 150px;
+                    background: #fff;
+                    margin: 10px 0;
+                }
+                p {
+                    color: #fff;
+                    margin: 5px 0 0 0;
+                }
+            }
+            .showVid {
+                background: transparent;
+                border: 1px solid #fff;
+                color: #fff;
+                padding: 10px 20px;
+                cursor: pointer;
+                margin-top: 15px;
+                position: relative;
+                overflow: hidden;
+                z-index: 1;
+                transition: 0.3s ease;*
+                &:before {
+                    content: "";
+                    height: 100%;
+                    width: 100%;
+                    background: #fff;
+                    position: absolute;
+                    top: 0;
+                    left: -100%;
+                    transition: 0.3s ease;
+                    z-index: -1;
+                }
+                &:hover {
+                    color: #000;
+                    &:before {
+                        left: 0;
+                    }
+                }
+            }
+            .readMore {
+                position: absolute;
+                z-index: 4;
+                bottom: 25px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 42px;
+                height: 42px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                text-decoration: none;
+                span:before {
+                    font-size: 32px;
+                    color: #fff;
+                }
+            }
+        }
+
+
+        @media screen and (min-width: 1025px) {
+            .mobile-nav {
+                display: none;
+            }
+        }
+
+        @media screen and (max-width: 1024px) {
+            #nav-wrapper {
+                width: 100%;
+                display: block;
+            }
+            .mobile-nav {
+                display: flex;
+            }
+            nav {
+                background: #fff;
+                padding: 0;
+                .nav-left {
+                    display: none;
+                }
+                .nav-right {
+                    justify-content: flex-start;
+                    height: 0;
+                    margin-top: 90px;
+                    ul {
+                        width: 100%;
+                        li {
+                            display: block !important;
+                            width: 100%;
+                            a {
+                                color: #000 !important;
+                                width: 100%;
+                                font-size: 26px;
+                                padding: 20px 30px;
+                                &:after {
+                                    height: 0 !important;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+  </style>
+</head>
+<body>
+  <div class="hero" id="home">
+    <div class="background"></div>
+    <div class="overlay"></div>
+    <div class="hero-content">
+      <h1>WELCOME to Page Turner</h1>
+      <div class="line"></div>
+      <p>You can see our books, </p>
+      <a href="/livre?search=vide"><button class="showVid">Click here</button></a>
+    </div>
+  </div>
+</body>
+</html>

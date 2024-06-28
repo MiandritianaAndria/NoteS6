@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        class="light-style layout-menu-fixed"
+        dir="ltr"
+        data-theme="theme-default"
+        data-assets-path="public/assets/"
+        data-template="vertical-menu-template-free"
+        xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="utf-8" />
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+
+    <title>Book's list</title>
+
+    <meta name="description" content="" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="public/assets/img/favicon/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+            rel="stylesheet"
+    />
+
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="public/assets/vendor/fonts/boxicons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="public/assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="public/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="public/assets/css/demo.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="public/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+
+    <!-- Page CSS -->
+
+    <!-- Helpers -->
+    <script src="public/assets/vendor/js/helpers.js"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="public/assets/js/config.js"></script>
+</head>
+
+<body class="font-sans antialiased dark:bg-black dark:text-white/50">
+<div class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
+    <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
+        <header class="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
+            <nav
+                    class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                    id="layout-navbar"
+            >
+                <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+                    <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                        <i class="bx bx-menu bx-sm"></i>
+                    </a>
+                </div>
+
+                <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                    <!-- Search -->
+<!--                    <form th:action="@{/livre}" method="GET">-->
+                        <div class="navbar-nav align-items-center">
+                            <div class="nav-item d-flex align-items-center">
+                                <i class="bx bx-search fs-4 lh-0"></i>
+                                <input
+                                        type="text"
+                                        class="form-control border-0 shadow-none"
+                                        placeholder="Search..."
+                                        aria-label="Search..."
+                                        name="search"
+                                />
+                                <!--                                        <button type="submit" class="btn btn-primary">Search</button>-->
+                            </div>
+                        </div>
+<!--                    </form>-->
+                    <!-- /Search -->
+
+                    <ul class="navbar-nav flex-row align-items-center ms-auto">
+                        <li class="nav-item lh-1 me-3" th:if="${usertype == 2}"><a href="/indexAdmin">Home</a></li>
+                        <li class="nav-item lh-1 me-3"><a class="nav-link" href="/listeEmprunt">Liste emprunt</a></li>
+                        <li class="nav-item lh-1 me-3"><a class="nav-link" href="/livreAdmin?search=vide">Liste livre</a></li>
+                        <li class="nav-item lh-1 me-3" th:if="${usertype == 2}"><a class="nav-link" href="/formulaireLivre">Ajouter un livre</a></li>
+                        <li class="nav-item lh-1 me-3" th:if="${usertype == 2}"><a class="nav-link" href="/inscription">Ajouter un membre</a></li>
+                    </ul>
+
+                </div>
+
+            </nav>
+        </header>
+
+        <div class="content-wrapper">
+            <div class="container-xxl flex-grow-1 container-p-y">
+                <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Biblio /</span> Best livre</h4>
+                <div class="row mb-5">
+
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            <h5 class="card-header">Best livre</h5>
+                            <div class="table-responsive text-nowrap">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Nombre d'emprunt</th>
+                                        <th>Titre</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="table-border-bottom-0">
+                                    <tr th:each="viewlivre:${viewlivres}">
+                                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong th:text="${viewlivre?.getLivreview()}">Angular Project</strong></td>
+                                        <td th:text="${viewlivre?.getTitre()}">Albert Cook</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Core JS -->
+<!-- build:js assets/vendor/js/core.js -->
+<script src="public/assets/vendor/libs/jquery/jquery.js"></script>
+<script src="public/assets/vendor/libs/popper/popper.js"></script>
+<script src="public/assets/vendor/js/bootstrap.js"></script>
+<script src="public/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+<script src="public/assets/vendor/js/menu.js"></script>
+<!-- endbuild -->
+
+<!-- Vendors JS -->
+<script src="public/assets/vendor/libs/masonry/masonry.js"></script>
+
+<!-- Main JS -->
+<script src="public/assets/js/main.js"></script>
+
+<!-- Page JS -->
+
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+</body>
+</html>
