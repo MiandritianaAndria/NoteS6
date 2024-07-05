@@ -1,0 +1,814 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 15.3
+-- Dumped by pg_dump version 15.3
+
+-- Started on 2024-07-05 11:05:48
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 214 (class 1259 OID 24945)
+-- Name: adherant; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.adherant (
+    id bigint NOT NULL,
+    designation character varying(255),
+    sanction integer,
+    quotient integer,
+    niveaux_lecture integer,
+    niveaux_emporte integer
+);
+
+
+ALTER TABLE public.adherant OWNER TO postgres;
+
+--
+-- TOC entry 215 (class 1259 OID 24948)
+-- Name: adherent_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.adherent_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.adherent_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3406 (class 0 OID 0)
+-- Dependencies: 215
+-- Name: adherent_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.adherent_id_seq OWNED BY public.adherant.id;
+
+
+--
+-- TOC entry 216 (class 1259 OID 24949)
+-- Name: categorie; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.categorie (
+    id integer NOT NULL,
+    designation character varying(255)
+);
+
+
+ALTER TABLE public.categorie OWNER TO postgres;
+
+--
+-- TOC entry 217 (class 1259 OID 24952)
+-- Name: categorie_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.categorie_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.categorie_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3407 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: categorie_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.categorie_id_seq OWNED BY public.categorie.id;
+
+
+--
+-- TOC entry 218 (class 1259 OID 24953)
+-- Name: emprunt; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.emprunt (
+    id bigint NOT NULL,
+    id_livre integer NOT NULL,
+    id_membre integer,
+    date_debut timestamp(6) without time zone,
+    date_fin timestamp(6) without time zone,
+    emporter integer,
+    statue integer DEFAULT 0
+);
+
+
+ALTER TABLE public.emprunt OWNER TO postgres;
+
+--
+-- TOC entry 219 (class 1259 OID 24957)
+-- Name: emprunt_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.emprunt_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.emprunt_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3408 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: emprunt_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.emprunt_id_seq OWNED BY public.emprunt.id;
+
+
+--
+-- TOC entry 220 (class 1259 OID 24958)
+-- Name: livre; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.livre (
+    id integer NOT NULL,
+    titre character varying(255),
+    auteur character varying(255),
+    collection character varying(255),
+    resume character varying(255),
+    id_categorie integer,
+    tome character varying(255),
+    motcle character varying(255),
+    langue character varying(255),
+    num_code character varying(255),
+    isbn character varying(255),
+    edition character varying(255),
+    date_edition timestamp(6) without time zone,
+    nb_page integer,
+    couverture character varying(255),
+    age_requis integer,
+    type_utilisation integer,
+    type_emporter integer,
+    emporter integer
+);
+
+
+ALTER TABLE public.livre OWNER TO postgres;
+
+--
+-- TOC entry 221 (class 1259 OID 24963)
+-- Name: livre_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.livre_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.livre_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3409 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: livre_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.livre_id_seq OWNED BY public.livre.id;
+
+
+--
+-- TOC entry 222 (class 1259 OID 24964)
+-- Name: membre; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.membre (
+    id integer NOT NULL,
+    referencemembre character varying(200),
+    nom character varying(255),
+    adresse character varying(255),
+    idadherant bigint,
+    telephone character varying(255),
+    datenaissance timestamp with time zone,
+    dateinscription timestamp with time zone,
+    reference_membre character varying(255)
+);
+
+
+ALTER TABLE public.membre OWNER TO postgres;
+
+--
+-- TOC entry 223 (class 1259 OID 24969)
+-- Name: membre_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.membre_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.membre_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3410 (class 0 OID 0)
+-- Dependencies: 223
+-- Name: membre_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.membre_id_seq OWNED BY public.membre.id;
+
+
+--
+-- TOC entry 224 (class 1259 OID 24970)
+-- Name: rendu; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.rendu (
+    id bigint NOT NULL,
+    date_rendu timestamp(6) without time zone,
+    id_livre integer NOT NULL,
+    id_membre integer NOT NULL,
+    penalite timestamp(6) without time zone
+);
+
+
+ALTER TABLE public.rendu OWNER TO postgres;
+
+--
+-- TOC entry 225 (class 1259 OID 24973)
+-- Name: rendu_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.rendu_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.rendu_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3411 (class 0 OID 0)
+-- Dependencies: 225
+-- Name: rendu_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.rendu_id_seq OWNED BY public.rendu.id;
+
+
+--
+-- TOC entry 226 (class 1259 OID 24974)
+-- Name: stock; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.stock (
+    id bigint NOT NULL,
+    quantite integer,
+    idlivre integer NOT NULL
+);
+
+
+ALTER TABLE public.stock OWNER TO postgres;
+
+--
+-- TOC entry 227 (class 1259 OID 24977)
+-- Name: stock_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.stock_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.stock_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3412 (class 0 OID 0)
+-- Dependencies: 227
+-- Name: stock_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.stock_id_seq OWNED BY public.stock.id;
+
+
+--
+-- TOC entry 228 (class 1259 OID 24978)
+-- Name: utilisateur; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.utilisateur (
+    id bigint NOT NULL,
+    email character varying(255),
+    mdp character varying(255),
+    type integer
+);
+
+
+ALTER TABLE public.utilisateur OWNER TO postgres;
+
+--
+-- TOC entry 229 (class 1259 OID 24983)
+-- Name: user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.user_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3413 (class 0 OID 0)
+-- Dependencies: 229
+-- Name: user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.user_id_seq OWNED BY public.utilisateur.id;
+
+
+--
+-- TOC entry 231 (class 1259 OID 25024)
+-- Name: v_listeemprunt; Type: VIEW; Schema: public; Owner: postgres
+--
+
+CREATE VIEW public.v_listeemprunt AS
+ SELECT emprunt.id,
+    emprunt.id_livre,
+    livre.titre,
+    emprunt.id_membre,
+    membre.nom,
+    membre.referencemembre,
+    emprunt.date_debut,
+    emprunt.date_fin,
+    emprunt.emporter,
+    emprunt.statue
+   FROM ((public.emprunt
+     JOIN public.livre ON ((emprunt.id_livre = livre.id)))
+     JOIN public.membre ON ((emprunt.id_membre = membre.id)))
+  ORDER BY emprunt.date_fin;
+
+
+ALTER TABLE public.v_listeemprunt OWNER TO postgres;
+
+--
+-- TOC entry 230 (class 1259 OID 24989)
+-- Name: v_viewlivre; Type: VIEW; Schema: public; Owner: postgres
+--
+
+CREATE VIEW public.v_viewlivre AS
+ SELECT emprunt.id_livre,
+    livre.titre,
+    count(livre.*) AS livreview
+   FROM (public.emprunt
+     JOIN public.livre ON ((emprunt.id_livre = livre.id)))
+  GROUP BY emprunt.id_livre, livre.titre
+  ORDER BY (count(livre.*)) DESC;
+
+
+ALTER TABLE public.v_viewlivre OWNER TO postgres;
+
+--
+-- TOC entry 3216 (class 2604 OID 24994)
+-- Name: adherant id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.adherant ALTER COLUMN id SET DEFAULT nextval('public.adherent_id_seq'::regclass);
+
+
+--
+-- TOC entry 3217 (class 2604 OID 24995)
+-- Name: categorie id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.categorie ALTER COLUMN id SET DEFAULT nextval('public.categorie_id_seq'::regclass);
+
+
+--
+-- TOC entry 3218 (class 2604 OID 24996)
+-- Name: emprunt id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.emprunt ALTER COLUMN id SET DEFAULT nextval('public.emprunt_id_seq'::regclass);
+
+
+--
+-- TOC entry 3220 (class 2604 OID 24997)
+-- Name: livre id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.livre ALTER COLUMN id SET DEFAULT nextval('public.livre_id_seq'::regclass);
+
+
+--
+-- TOC entry 3221 (class 2604 OID 24998)
+-- Name: membre id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.membre ALTER COLUMN id SET DEFAULT nextval('public.membre_id_seq'::regclass);
+
+
+--
+-- TOC entry 3222 (class 2604 OID 24999)
+-- Name: rendu id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.rendu ALTER COLUMN id SET DEFAULT nextval('public.rendu_id_seq'::regclass);
+
+
+--
+-- TOC entry 3223 (class 2604 OID 25000)
+-- Name: stock id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.stock ALTER COLUMN id SET DEFAULT nextval('public.stock_id_seq'::regclass);
+
+
+--
+-- TOC entry 3224 (class 2604 OID 25001)
+-- Name: utilisateur id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.utilisateur ALTER COLUMN id SET DEFAULT nextval('public.user_id_seq'::regclass);
+
+
+--
+-- TOC entry 3385 (class 0 OID 24945)
+-- Dependencies: 214
+-- Data for Name: adherant; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.adherant VALUES (1, 'eleve', 4, 7, 2, 1);
+INSERT INTO public.adherant VALUES (2, 'proffesseur', 2, 14, 4, 2);
+INSERT INTO public.adherant VALUES (3, 'Professionnel', 3, 21, 3, 3);
+INSERT INTO public.adherant VALUES (4, 'simple', 5, 1, 1, 0);
+
+
+--
+-- TOC entry 3387 (class 0 OID 24949)
+-- Dependencies: 216
+-- Data for Name: categorie; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.categorie VALUES (1, 'Fiction');
+INSERT INTO public.categorie VALUES (2, 'Science-fiction');
+INSERT INTO public.categorie VALUES (3, 'Fantasy');
+INSERT INTO public.categorie VALUES (4, 'Biographie');
+INSERT INTO public.categorie VALUES (5, 'Histoire');
+INSERT INTO public.categorie VALUES (6, 'Sciences');
+INSERT INTO public.categorie VALUES (7, 'Livres pour enfants');
+INSERT INTO public.categorie VALUES (8, 'Livres d''images');
+INSERT INTO public.categorie VALUES (9, 'Livres éducatifs');
+INSERT INTO public.categorie VALUES (10, 'Dictionnaire');
+INSERT INTO public.categorie VALUES (11, 'Encyclopédie');
+INSERT INTO public.categorie VALUES (12, 'Atlas');
+
+
+--
+-- TOC entry 3389 (class 0 OID 24953)
+-- Dependencies: 218
+-- Data for Name: emprunt; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.emprunt VALUES (23, 1, 3, '2024-05-29 17:32:21.845', '2024-06-12 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (6, 1, 1, '2024-05-28 21:29:11.783', '2024-06-04 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (24, 11, 3, '2024-05-29 18:51:52.975', '2024-06-12 00:00:00', 1, 1);
+INSERT INTO public.emprunt VALUES (14, 1, 1, '2024-05-28 21:39:59.416', '2024-06-04 00:00:00', 1, 1);
+INSERT INTO public.emprunt VALUES (15, 6, 1, '2024-05-28 21:40:36.63', '2024-06-04 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (26, 4, 2, '2024-06-04 10:49:05.346', '2024-06-18 00:00:00', 1, 1);
+INSERT INTO public.emprunt VALUES (10, 1, 1, '2024-05-28 21:36:21.563', '2024-06-04 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (9, 1, 1, '2024-05-28 21:36:08.517', '2024-06-04 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (8, 1, 1, '2024-05-28 21:35:57.069', '2024-06-04 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (25, 2, 1, '2024-05-30 15:27:33.044', '2024-06-06 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (16, 1, 2, '2024-05-29 14:14:11.198', '2024-06-12 00:00:00', 1, 1);
+INSERT INTO public.emprunt VALUES (17, 3, 2, '2024-05-29 14:14:13.187', '2024-06-12 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (29, 1, 2, '2024-06-04 21:21:12.213', '2024-06-18 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (27, 2, 2, '2024-06-04 21:21:08.307', '2024-06-18 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (28, 3, 2, '2024-06-04 21:21:10.597', '2024-06-18 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (31, 5, 2, '2024-06-04 21:21:15.949', '2024-06-18 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (30, 4, 2, '2024-06-04 21:21:13.964', '2024-06-18 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (32, 6, 2, '2024-06-04 21:21:17.631', '2024-06-18 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (33, 1, 2, '2024-06-04 21:38:32.07', '2024-06-18 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (34, 2, 2, '2024-06-04 21:38:33.461', '2024-06-18 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (35, 3, 2, '2024-06-04 21:38:34.993', '2024-06-18 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (39, 2, 2, '2024-06-04 21:56:22.466', '2024-06-18 00:00:00', 0, 0);
+INSERT INTO public.emprunt VALUES (40, 2, 2, '2024-06-04 22:04:16.449', '2024-06-18 00:00:00', 0, 0);
+INSERT INTO public.emprunt VALUES (41, 30, 3, '2024-06-05 10:41:07.679', '2024-06-19 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (43, 31, 3, '2024-06-05 10:47:42.262', '2024-06-19 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (42, 1, 3, '2024-06-05 10:47:36.569', '2024-06-19 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (44, 5, 1, '2024-06-10 17:21:32.625', '2025-10-27 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (45, 3, 1, '2024-06-10 17:23:10.038', '2025-10-27 00:00:00', 0, 0);
+INSERT INTO public.emprunt VALUES (47, 2, 1, '2024-06-18 12:28:47.225', '2025-11-04 00:00:00', 0, 0);
+INSERT INTO public.emprunt VALUES (48, 2, 1, '2024-06-18 14:27:28.849', '2025-11-04 00:00:00', 0, 0);
+INSERT INTO public.emprunt VALUES (38, 6, 2, '2024-06-04 21:38:40.045', '2024-06-18 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (37, 5, 2, '2024-06-04 21:38:37.955', '2024-06-18 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (49, 1, 1, '2024-06-19 16:46:03.614', '2025-11-05 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (50, 40, 1, '2024-06-20 09:32:54.353', '2025-11-06 00:00:00', 0, 0);
+INSERT INTO public.emprunt VALUES (36, 4, 2, '2024-06-04 21:38:36.388', '2024-06-18 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (46, 4, 1, '2024-06-10 17:23:41.144', '2025-10-27 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (51, 1, 4, '2024-06-20 11:03:18.549', '2024-06-27 00:00:00', 0, 1);
+INSERT INTO public.emprunt VALUES (52, 11, 1, '2024-06-20 11:19:06.21', '2024-07-04 00:00:00', 1, 0);
+INSERT INTO public.emprunt VALUES (53, 1, 3, '2024-06-27 08:42:17.544', '2024-07-18 00:00:00', 0, 0);
+INSERT INTO public.emprunt VALUES (54, 2, 3, '2024-06-27 11:24:37.437', '2024-07-18 00:00:00', 0, 1);
+
+
+--
+-- TOC entry 3391 (class 0 OID 24958)
+-- Dependencies: 220
+-- Data for Name: livre; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.livre VALUES (1, 'Le Comte de Monte-Cristo', 'Alexandre Dumas', 'Le Livre de Poche', 'Un jeune marin injustement emprisonné cherche vengeance.', 1, '1', 'Aventure, Drame', 'Français', '100000', '978-2253003487', '1ère édition', '1844-08-28 00:00:00', 1488, 'https://img-4.linternaute.com/vuq5DaIE0vv65ilF1C6oXoX_K7I=/1240x/70b720ccc1d54a8d8e54275450251fda/ccmcms-linternaute/225443.jpeg', 14, 1, 2, 0);
+INSERT INTO public.livre VALUES (2, 'Les Misérables', 'Victor Hugo', 'Le Livre de Poche', 'La vie de Jean Valjean dans la France du 19ème siècle.', 1, '1', 'Drame, Historique', 'Français', '100001', '978-2253003708', '1ère édition', '1862-03-15 00:00:00', 1984, 'https://cdn.kobo.com/book-images/9cd6ff8c-ae73-4c8b-b161-326c1887d48c/1200/1200/False/les-miserables-291.jpg', 16, 2, 2, 0);
+INSERT INTO public.livre VALUES (4, 'Crime et Châtiment', 'Fiodor Dostoïevski', 'Folio', 'Un étudiant russe commet un meurtre et fait face aux conséquences.', 1, '1', 'Drame, Psychologique', 'Français', '100003', '978-2070374523', '1ère édition', '1866-01-01 00:00:00', 672, 'https://media.senscritique.com/media/000020002515/0/crime_et_chatiment.jpg', 18, 1, 3, 1);
+INSERT INTO public.livre VALUES (10, 'Harry Potter à l''école des sorciers', 'J.K. Rowling', 'Gallimard Jeunesse', 'Le début des aventures de Harry Potter à Poudlard.', 3, '1', 'Fantasy, Jeunesse', 'Français', '100009', '978-2070643025', '1ère édition', '1997-06-26 00:00:00', 320, 'https://images-na.ssl-images-amazon.com/images/I/81YOuOGFCJL.jpg', 12, 1, 0, 1);
+INSERT INTO public.livre VALUES (5, '1984', 'George Orwell', 'Folio', 'Une dystopie sur un régime totalitaire qui surveille tous les aspects de la vie.', 2, '1', 'Dystopie, Politique', 'Français', '100004', '978-2070368225', '1ère édition', '1949-06-08 00:00:00', 336, 'https://qph.cf2.quoracdn.net/main-qimg-62020f672f5ac64703fd8ea15de0d79a-lq', 16, 1, 1, 1);
+INSERT INTO public.livre VALUES (7, 'L''origine des espèces', 'Charles Darwin', 'Penguin Classics', 'Un ouvrage scientifique fondateur sur l''évolution des espèces.', 6, '1', 'Science, Biologie', 'Français', '100006', '978-0140439120', '1ère édition', '1859-11-24 00:00:00', 720, 'https://images.nextory.com/9782322146161.jpg?fit=clip&auto=format&w={$width}', 18, 1, 3, 0);
+INSERT INTO public.livre VALUES (6, 'Le Seigneur des Anneaux', 'J.R.R. Tolkien', 'HarperCollins', 'Une épopée fantastique dans la Terre du Milieu.', 3, '1', 'Fantasy, Aventure', 'Français', '100005', '978-0261103573', '1ère édition', '1954-07-29 00:00:00', 1216, 'https://m.media-amazon.com/images/I/71lKy8RoFUL._AC_UF894,1000_QL80_.jpg', 14, 2, 1, 0);
+INSERT INTO public.livre VALUES (3, 'Orgueil et Préjugés', 'Jane Austen', 'Le Livre de Poche', 'Une histoire d''amour et de classe dans l''Angleterre du début du 19ème siècle.', 1, '1', 'Romance, Classique', 'Français', '100002', '978-2253004231', '1ère édition', '1813-01-28 00:00:00', 480, 'https://www.gutenberg.org/files/1342/old/1342-h/images/cover.jpg', 12, 3, 1, 1);
+INSERT INTO public.livre VALUES (8, 'Une Brève Histoire du Temps', 'Stephen Hawking', 'Bantam', 'Un livre accessible sur la cosmologie et les mystères de l''univers.', 6, '1', 'Science, Astronomie', 'Français', '100007', '978-0553380163', '1ère édition', '1988-04-01 00:00:00', 256, 'https://images.epagine.fr/113/9782290307113_1_75.jpg', 16, 2, 0, 1);
+INSERT INTO public.livre VALUES (9, 'Le Petit Prince', 'Antoine de Saint-Exupéry', 'Gallimard', 'Un conte poétique et philosophique sur un petit prince venant d''une autre planète.', 7, '1', 'Conte, Philosophique', 'Français', '100008', '978-2070612755', '1ère édition', '1943-04-06 00:00:00', 96, 'https://cdn11.bigcommerce.com/s-arl5b/images/stencil/1280x1280/products/1886/12622/CouckeTeaTowelPetitPrincePlanet__61046.1709577101.jpg?c=2', 10, 1, 1, 0);
+INSERT INTO public.livre VALUES (11, 'L''Art de la guerre', 'Sun Tzu', 'Flammarion', 'Un traité militaire chinois sur la stratégie et la tactique.', 12, '1', 'Stratégie, Philosophie', 'Français', '100010', '978-2081213573', '1ère édition', '0500-01-01 00:00:00', 224, 'https://cdn.kobo.com/book-images/7b109074-6d36-4c3c-8b0e-e68d6ef0cc4f/1200/1200/False/l-art-de-la-guerre-74.jpg', 14, 2, 2, 1);
+INSERT INTO public.livre VALUES (40, 'Pride and Prejudice', 'Jane Austen', 'Public Domain Classic', 'Pride and Prejudice follows Elizabeth Bennet as she navigates societal norms and romantic entanglements in 19th-century England. The arrival of Mr. Darcy challenges her prejudices and leads her to true love.', 5, 'Standalone', 'Pride and Prejudice, Jane Austen, Regency, Romance, Classic Literature', 'English', '9780141439518', '978-0141439518', '1ère edition (Penguin Classics)', '2003-01-03 00:00:00', 480, 'public/imgCouverture/71Q1tPupKjL._AC_UF1000,1000_QL80_.jpg', 12, 1, 3, 1);
+INSERT INTO public.livre VALUES (12, 'Le Livre des Merveilles', 'Marco Polo', 'Penguin Classics', 'Les voyages de Marco Polo à travers l''Asie au 13ème siècle.', 4, '1', 'Biographie, Voyage', 'Français', '100011', '978-0140440577', '1ère édition', '1298-01-01 00:00:00', 368, 'https://m.media-amazon.com/images/I/91qE-8xWDVL._AC_UF1000,1000_QL80_.jpg', 16, 1, 3, 0);
+
+
+--
+-- TOC entry 3393 (class 0 OID 24964)
+-- Dependencies: 222
+-- Data for Name: membre; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.membre VALUES (1, 'E001', 'Jean Dupont', NULL, 2, '0600000001', '1980-01-01 00:00:00+01', '2023-01-01 00:00:00+01', 'E001');
+INSERT INTO public.membre VALUES (2, 'E002', 'Marie Curie', NULL, 4, '0600000002', '1867-11-07 00:00:00+00:09:21', '2023-02-01 00:00:00+01', 'E002');
+INSERT INTO public.membre VALUES (3, 'E003', 'Albert Einstein', NULL, 3, '0600000003', '1879-03-14 00:00:00+00:09:21', '2023-03-01 00:00:00+01', 'E003');
+INSERT INTO public.membre VALUES (4, 'E004', 'Isaac Newton', NULL, 1, '0600000004', '1643-01-04 00:00:00+00:09:21', '2023-04-01 00:00:00+02', 'E004');
+
+
+--
+-- TOC entry 3395 (class 0 OID 24970)
+-- Dependencies: 224
+-- Data for Name: rendu; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.rendu VALUES (1, '2024-05-29 17:33:17.199', 1, 3, NULL);
+INSERT INTO public.rendu VALUES (2, '2024-05-29 17:34:27.875', 1, 1, NULL);
+INSERT INTO public.rendu VALUES (3, '2024-05-29 18:53:09.775', 11, 3, NULL);
+INSERT INTO public.rendu VALUES (4, '2024-05-29 18:57:52.131', 1, 1, NULL);
+INSERT INTO public.rendu VALUES (5, '2024-05-29 18:59:28.058', 6, 1, NULL);
+INSERT INTO public.rendu VALUES (6, '2024-06-04 10:49:16.002', 4, 2, NULL);
+INSERT INTO public.rendu VALUES (7, '2024-06-04 21:03:03.276', 1, 1, NULL);
+INSERT INTO public.rendu VALUES (8, '2024-06-04 21:09:53.685', 1, 1, NULL);
+INSERT INTO public.rendu VALUES (9, '2024-06-04 21:12:33.063', 1, 1, NULL);
+INSERT INTO public.rendu VALUES (10, '2024-06-04 21:17:57.557', 2, 1, NULL);
+INSERT INTO public.rendu VALUES (11, '2024-06-04 21:19:12.035', 1, 2, NULL);
+INSERT INTO public.rendu VALUES (12, '2024-06-04 21:20:27.87', 3, 2, '2024-06-04 21:20:27.873');
+INSERT INTO public.rendu VALUES (13, '2024-06-04 21:21:27.328', 1, 2, '2024-06-04 21:21:27.33');
+INSERT INTO public.rendu VALUES (14, '2024-06-04 21:22:28.997', 2, 2, '2024-06-04 21:22:29.006');
+INSERT INTO public.rendu VALUES (15, '2024-06-04 21:25:13.256', 3, 2, '2024-06-04 21:25:13.26');
+INSERT INTO public.rendu VALUES (16, '2024-06-04 21:29:29.517', 5, 2, NULL);
+INSERT INTO public.rendu VALUES (17, '2024-06-04 21:34:32.944', 4, 2, NULL);
+INSERT INTO public.rendu VALUES (18, NULL, 6, 2, '2024-06-04 21:36:14.346');
+INSERT INTO public.rendu VALUES (19, NULL, 1, 2, '2024-06-04 21:38:45.986');
+INSERT INTO public.rendu VALUES (20, '2024-06-04 21:39:08.592', 2, 2, '2024-06-04 21:39:08.592');
+INSERT INTO public.rendu VALUES (21, '2024-10-23 00:00:00', 3, 2, '2025-06-20 00:00:00');
+INSERT INTO public.rendu VALUES (23, '2024-06-21 00:00:00', 31, 3, '2024-06-27 00:00:00');
+INSERT INTO public.rendu VALUES (24, '2024-06-05 10:48:49.668', 1, 3, '2024-06-05 10:48:49.668');
+INSERT INTO public.rendu VALUES (25, '2024-10-28 00:00:00', 5, 1, '2024-06-10 17:23:01.445');
+INSERT INTO public.rendu VALUES (26, '2024-06-19 00:00:00', 6, 2, '2024-06-24 00:00:00');
+INSERT INTO public.rendu VALUES (27, '2024-06-21 00:00:00', 5, 2, '2024-07-06 00:00:00');
+INSERT INTO public.rendu VALUES (28, '2024-06-18 00:00:00', 1, 1, '2024-06-19 16:46:53.513');
+INSERT INTO public.rendu VALUES (29, '2024-06-20 09:33:21.938', 4, 2, '2024-06-20 09:33:21.938');
+INSERT INTO public.rendu VALUES (30, '2024-06-20 09:33:35.225', 4, 1, '2024-06-20 09:33:35.225');
+INSERT INTO public.rendu VALUES (31, '2024-06-29 00:00:00', 1, 4, '2024-07-07 00:00:00');
+INSERT INTO public.rendu VALUES (32, '2024-07-19 00:00:00', 2, 3, '2024-07-22 00:00:00');
+
+
+--
+-- TOC entry 3397 (class 0 OID 24974)
+-- Dependencies: 226
+-- Data for Name: stock; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.stock VALUES (7, 6, 7);
+INSERT INTO public.stock VALUES (8, 10, 8);
+INSERT INTO public.stock VALUES (9, 25, 9);
+INSERT INTO public.stock VALUES (10, 30, 10);
+INSERT INTO public.stock VALUES (12, 22, 12);
+INSERT INTO public.stock VALUES (13, 14, 13);
+INSERT INTO public.stock VALUES (14, 10, 14);
+INSERT INTO public.stock VALUES (15, 18, 15);
+INSERT INTO public.stock VALUES (16, 8, 16);
+INSERT INTO public.stock VALUES (17, 10, 17);
+INSERT INTO public.stock VALUES (18, 15, 18);
+INSERT INTO public.stock VALUES (19, 12, 19);
+INSERT INTO public.stock VALUES (20, 8, 20);
+INSERT INTO public.stock VALUES (39, 10, 39);
+INSERT INTO public.stock VALUES (3, 8, 3);
+INSERT INTO public.stock VALUES (6, 19, 6);
+INSERT INTO public.stock VALUES (5, 20, 5);
+INSERT INTO public.stock VALUES (40, 4, 40);
+INSERT INTO public.stock VALUES (4, 12, 4);
+INSERT INTO public.stock VALUES (11, 19, 11);
+INSERT INTO public.stock VALUES (1, 15, 1);
+INSERT INTO public.stock VALUES (2, 11, 2);
+
+
+--
+-- TOC entry 3399 (class 0 OID 24978)
+-- Dependencies: 228
+-- Data for Name: utilisateur; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.utilisateur VALUES (18, 'rabe@gmail.com', 'rab', 1);
+INSERT INTO public.utilisateur VALUES (17, 'mimi@gmail.com', 'mimi', 2);
+
+
+--
+-- TOC entry 3414 (class 0 OID 0)
+-- Dependencies: 215
+-- Name: adherent_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.adherent_id_seq', 4, true);
+
+
+--
+-- TOC entry 3415 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: categorie_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.categorie_id_seq', 12, true);
+
+
+--
+-- TOC entry 3416 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: emprunt_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.emprunt_id_seq', 54, true);
+
+
+--
+-- TOC entry 3417 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: livre_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.livre_id_seq', 40, true);
+
+
+--
+-- TOC entry 3418 (class 0 OID 0)
+-- Dependencies: 223
+-- Name: membre_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.membre_id_seq', 3, true);
+
+
+--
+-- TOC entry 3419 (class 0 OID 0)
+-- Dependencies: 225
+-- Name: rendu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.rendu_id_seq', 32, true);
+
+
+--
+-- TOC entry 3420 (class 0 OID 0)
+-- Dependencies: 227
+-- Name: stock_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.stock_id_seq', 40, true);
+
+
+--
+-- TOC entry 3421 (class 0 OID 0)
+-- Dependencies: 229
+-- Name: user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.user_id_seq', 19, true);
+
+
+--
+-- TOC entry 3226 (class 2606 OID 25003)
+-- Name: adherant adherent_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.adherant
+    ADD CONSTRAINT adherent_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3228 (class 2606 OID 25005)
+-- Name: categorie categorie_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.categorie
+    ADD CONSTRAINT categorie_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3232 (class 2606 OID 25007)
+-- Name: livre livre_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.livre
+    ADD CONSTRAINT livre_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3234 (class 2606 OID 25009)
+-- Name: membre membre_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.membre
+    ADD CONSTRAINT membre_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3230 (class 2606 OID 25011)
+-- Name: emprunt pk_emprunt; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.emprunt
+    ADD CONSTRAINT pk_emprunt PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3238 (class 2606 OID 25013)
+-- Name: stock pk_stock; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.stock
+    ADD CONSTRAINT pk_stock PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3236 (class 2606 OID 25015)
+-- Name: rendu rendu_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.rendu
+    ADD CONSTRAINT rendu_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3240 (class 2606 OID 25017)
+-- Name: utilisateur user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.utilisateur
+    ADD CONSTRAINT user_pkey PRIMARY KEY (id);
+
+
+-- Completed on 2024-07-05 11:05:48
+
+--
+-- PostgreSQL database dump complete
+--
+
