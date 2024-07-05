@@ -1,0 +1,3 @@
+username : ken
+password : jerry2titeuf
+database : ken_biblio_mimi_potsi
