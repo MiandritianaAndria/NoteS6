@@ -10,12 +10,11 @@ version = '0.0.1-SNAPSHOT'
 
 java {
     sourceCompatibility = '17'
+    argetCompatibility = '17'
 }
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
-    options.fork = true
-    options.forkOptions.executable = "C:/Program Files/Eclipse Adoptium/jdk-17.0.5.8-hotspot/bin/javac"
 }
 
 repositories {
@@ -42,7 +41,7 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
-     executable = "C:/Program Files/Eclipse Adoptium/jdk-17.0.5.8-hotspot/bin/java"
+
 }
 
 bootJar{
