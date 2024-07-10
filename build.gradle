@@ -44,6 +44,10 @@ tasks.named('test') {
 
 }
 
+tasks.named('processResources').configure {
+    doNotTrackState()
+}
+
 bootJar{
     enabled = true
 }
